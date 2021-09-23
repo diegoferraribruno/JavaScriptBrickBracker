@@ -1,6 +1,6 @@
 export default class Brick {
   constructor(game, position){
-    this.image = document.getElementById("img_brick");
+    //this.image = document.getElementById("img_brick");
 
     this.gameWidth = game.gameWidth;
     this.gameHeight = game.gameHeight;
@@ -8,8 +8,8 @@ export default class Brick {
     this.game = game;
 
     this.position = position
-    this.width = 52;
-    this.height = 32;
+    this.width = 32;
+    this.height = 12;
 
   }
   update(deltaTime){}
