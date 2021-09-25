@@ -1,3 +1,5 @@
+import {detectCollision} from '/collisionDetection.js';
+
 export default class Ball {
   constructor(game){
     this.image = document.getElementById("img_ball");
@@ -7,9 +9,16 @@ export default class Ball {
 
     this.game = game;
 
-    this.size = 32;
-    this.position = {x:game.gameWidth/2-this.size/2, y:game.gameHeight/2-this.size/2};
-    this.speed = {x:2, y: 2};
+    this.size = 8;
+
+
+    this.height = this.size
+    this.width = this.size
+    this.reset(this.gameWidth, this.gameHeight);
+  }
+  reset(w,h){
+    this.position = {x: this.gameWidth/2-this.size/2, y:this.gameHeight/2-this.size/2};
+    this.speed = {x:2, y: -2};
   }
   draw(ctx){
     ctx.drawImage(
@@ -28,26 +37,19 @@ export default class Ball {
     {
       this.speed.x = -this.speed.x
     }
-    //check if hit wall on top or bottom
-    if (this.position.y < 0 || this.position.y + this.size > this.gameHeight)
+    //check if hit wall on top
+    if (this.position.y < 0)
     {
       this.speed.y = -this.speed.y
     }
-    //check if hit Paddle
-    let bottomOfBall = this.position.y + this.size;
-    let topOfPaddle = this.game.paddle.position.y;
-    let leftSideOfPaddle = this.game.paddle.position.x;
-    let rightSideOfPaddle = this.game.paddle.position.x + this.game.paddle.width;
-
-    if(
-      bottomOfBall >= topOfPaddle &&
-      this.position.x  >= leftSideOfPaddle &&
-      this.position.x + this.size <= rightSideOfPaddle
-    ) {
-      this.speed.y = -this.speed.y;
-      this.position.y = this.game.paddle.position.y - this.size;
+    if ( this.position.y + this.size > this.gameHeight){
+      this.game.lives--;
+      this.reset();
     }
-    //this.position.y = topOfPaddle - this.size;
-
+    if(detectCollision(this, this.game.paddle)){
+      this.speed.x = -this.speed.x;
+      this.speed.y = -this.speed.y;
+      //this.position.y = this.game.paddle.position.y - this.size;
+    }
   }
 }
