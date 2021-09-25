@@ -6,7 +6,7 @@ export default class Ball {
 
     this.gameWidth = game.gameWidth;
     this.gameHeight = game.gameHeight;
-
+    this.input = 0
     this.game = game;
 
     this.size = 8;
@@ -16,9 +16,13 @@ export default class Ball {
     this.width = this.size
     this.reset(this.gameWidth, this.gameHeight);
   }
+  inputSet(value){
+      this.input = value
+
+    }
   reset(w,h){
     this.position = {x: this.gameWidth/2-this.size/2, y:this.gameHeight/2-this.size/2};
-    this.speed = {x:2, y: -2};
+    this.speed = {x:2, y: -5};
   }
   draw(ctx){
     ctx.drawImage(
@@ -47,7 +51,7 @@ export default class Ball {
       this.reset();
     }
     if(detectCollision(this, this.game.paddle)){
-      this.speed.x = -this.speed.x;
+      this.speed.x = this.speed.x + this.input;
       this.speed.y = -this.speed.y;
       //this.position.y = this.game.paddle.position.y - this.size;
     }

@@ -24,7 +24,7 @@ export default class Game {
     this.lives = 3;
     this.levels = [level1,level2];
     this.currentLevel = 0;
-    new InputHandler(this.paddle, this);
+    new InputHandler(this.paddle, this.ball, this);
 
   }
   start(){
@@ -52,7 +52,7 @@ export default class Game {
         if(this.bricks.length === 0 ){
           this.gamestate = GAMESTATE.NEWLEVEL;
           this.currentLevel++;
-          start();
+          this.start();
         }
     }
     draw(ctx){
